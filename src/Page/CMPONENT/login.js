@@ -1,9 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
+
 import '../../CSS/component.css';
-import Loading from "./Loading";
-import { baseURL, LOGIN } from "../API/api";
-import Cookie from "cookie-universal";
+
 export default function Login(){
 
   const [form , setForm]=useState
@@ -13,48 +11,19 @@ export default function Login(){
     password:'',
   });
 
-  const cookie = Cookie();
 
-  const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await axios.post(`${baseURL}/${LOGIN}`, form);
-      setLoading(false);
-      const token = res.data.token;
-      const role = res.data.user.role;
-      const go = role === "1995" ? "user" : "test";
-      cookie.set("e-commerce", token);
-      window.location.pathname = `/dashboard/${go}`;
-    } 
-    catch (err) {
-      console.log(err);
-      setLoading(false);
-      if (err.response.status === 401) {
-        setErr("Wrong Email Or Password");
-      } else {
-        setErr("Internal Server ERR");
-      }
-    }
-  }
-
 
   function handle (e){
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  
-    
-
-    return(
+   return(
         <>
-       {loading && <Loading />}
+       
            <div className="container">
            <div className='row'>
-            <form className="form" onSubmit={handleSubmit}>
+            <form className="form" >
 
             <div className="form-contro">
    

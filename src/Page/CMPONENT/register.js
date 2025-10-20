@@ -1,18 +1,7 @@
 import { useState } from "react";
-import Cookie from "cookie-universal";
-
-import axios from "axios";
 
 import '../../CSS/component.css';
-import Loading from "./Loading";
-import { baseURL, REGISTER } from "../API/api";
-
-import { useNavigate } from "react-router-dom";
-
-
 export default function Register(){
-
-  const navigate = useNavigate();
 
   const [form , setForm]=useState
   ({
@@ -22,42 +11,19 @@ export default function Register(){
   });
 
   const [err, setErr] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const cookie = Cookie();
-
+  
   function handle (e){
     setForm({...form , [e.target.name]:e.target.value})
   };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await axios.post(`${baseURL}/${REGISTER}`, form);
-      const token = res.data.token;
-      setLoading(false);
-      cookie.set("e-commerce", token);
-      navigate("/dashboard/user", { replace: true });
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-      if (err.response.status === 422) {
-        setErr("Email is already been taken");
-      } else {
-        setErr("Internal Server ERR");
-      }
-    }
-  }
-    
-
+ 
     return(
         <>
-          {loading && <Loading />}
+        
        
            <div className="container">
            <div className='row'>
-            <form className="form" onSubmit={handleSubmit}>
+            <form className="form" >
 
             <div className="form-contro">
             
